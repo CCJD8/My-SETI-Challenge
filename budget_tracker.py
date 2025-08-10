@@ -1,6 +1,5 @@
 # Budget tracker and push it to GitHub
-
-# to do: 
+# To do: 
 # - add compound interest every day
 # - host the database csv on raspberry pi
 
@@ -9,7 +8,6 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-#new comment to test git
 
 # Edit balance based on withdrawal
 def edit_balance(*args):
@@ -31,29 +29,33 @@ def save_balance(*args):
 # Default error message function
 def error_message():
     messagebox.showerror("Error", "Something went wrong...")
-    
 
 
 
-# Load in details from CSV. 
+# Load in details from CSV with pandas
 database_path = "C:\\Users\\Connor\\Documents\\Nebuchadnezzar\\Learning\\Python\\database.csv"
 database = pd.read_csv(database_path)
 balance = database.iloc[0,0]
 
-# Create main window
+
+
+# Create main window with tkinter
 root = tk.Tk()
 root.title("Bank Account")
 
+# Style the main window
+style = ttk.Style()
+style.theme_use("clam")
+style.configure("my_style", font="helvetica 24", foreground="blue")
+
 # Create a frame in the parent widget[the root main window]
-# Position a widget[the mainframe frame] in the parent widget[the root main window] in a grid. Sticky means if cell is larger, which sides will this widget stick to cell boundary
+# Position a widget[the mainframe frame] in the parent widget[the root main window] in a grid.
 mainframe = ttk.Frame(root, padding=(3,3,12,12), borderwidth=40, relief='groove')
 mainframe.grid(column=0, row=0, sticky=(tk.N, tk.S, tk.E, tk.W))
 
 # Configure column and row index of the grid
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
-
-
 
 # Add entry object in grid for withdrawals
 withdraw_amount = tk.StringVar()
