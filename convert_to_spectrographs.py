@@ -70,6 +70,7 @@ def main(argv):
         pngname = pngname + '.png'
         fig.savefig(os.path.join(output_dir, pngname), bbox_inches='tight')
 
+
 # Ensure the program is run only when run directly by checking 
 # if __name__ == "__main__". If true, the main() function is called 
 # and the command line arguments are passed (excluding the script
