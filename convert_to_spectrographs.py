@@ -63,12 +63,18 @@ def main(argv):
     # Create spectrograms by reading .dat files with ibmseti and save as png
     for current_file in all_data_files:
         spectrogram = ibmseti.compamp.SimCompamp(dataset.open(current_file, 'r').read()).get_spectrogram()
-        ax.cla()
-        ax.imshow(take_spectrogram_log(spectrogram, log_option), aspect=(0.5*float(spectrogram.shape[1]) / spectrogram.shape[0]))
+        ax.imshow(take_spectrogram_log(spectrogram, log_option), aspect=(0.5*float(spectrogram.shape[1]) / spectrogram.shape[0]), cmap="gray")
+        ax.yaxis.set_inverted(False)
         
+        ax.set_title(str(current_file).split("/")[1])
+        ax.set_xlabel("Time")
+        ax.set_ylabel("Frequency")
+                
         pngname,_ = os.path.splitext(os.path.basename(current_file))  
         pngname = pngname + '.png'
         fig.savefig(os.path.join(output_dir, pngname), bbox_inches='tight')
+        
+        ax.cla()
 
 
 # Ensure the program is run only when run directly by checking 
