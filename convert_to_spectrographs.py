@@ -16,26 +16,23 @@ def take_spectrogram_log(spectrogram, log_option):
 
 
 def main(argv):
-    """Main function that takes the command line arguments."""
+    """Main function that takes the command line arguments and creates the spectrograms."""
     input_dir = '.'
     output_dir = '.'
     log_option = True
-    skip_lines = 2
-    usagestring = "convert_to_spectrographs.py -i <indir> -o <outdir> -l <logOpt> -s <skip> -m <spectrogram height factor>"
-    
-    # Create figure and axes for spectrogram
-    fig, ax = plt.subplots(figsize=(10, 5))
+    usagestring = "convert_to_spectrographs.py -i <indir> -o <outdir> -l <logOpt>"
     
     # Use getopt() to parse command line options and parameter list. 
     # The first return is a list of (option, value) pairs, 
     # the second is a list of program arguments left after
     # the option list was stripped.
     try:
-        options, arguments = getopt.getopt(argv,"hi:o:l:s:m:",["indir=","outdir=","log=","skip=","m="])
+        options, _ = getopt.getopt(argv,"hi:o:l:s:m:",["indir=","outdir=","log=","skip=","m="])
     except getopt.GetoptError:
         print(f"Error in command line input format\n{usagestring}")
         sys.exit()
                 
+    # Loop through the options and their values to assign input/output directories etc
     for opt, arg in options:
         if opt in ("-o", "--outdir"):
             output_dir = arg
@@ -46,10 +43,6 @@ def main(argv):
                 log_option = True
             else:
                 log_option = False
-        elif opt in ("-s", "--skip"):
-            skipLines = int(arg)
-        elif opt in ("-m", "--m"):
-            m = int(arg)
         else:
             print("Error in command line input format")
             print(usagestring)
@@ -64,7 +57,10 @@ def main(argv):
     print('Output dir is ', output_dir)
     print('Log option is ', log_option)
     
-    # Create spectrograms and save as png
+    # Create figure and axes for spectrogram
+    fig, ax = plt.subplots(figsize=(10, 5))
+    
+    # Create spectrograms by reading .dat files with ibmseti and save as png
     for current_file in all_data_files:
         spectrogram = ibmseti.compamp.SimCompamp(dataset.open(current_file, 'r').read()).get_spectrogram()
         ax.cla()
@@ -74,6 +70,9 @@ def main(argv):
         pngname = pngname + '.png'
         fig.savefig(os.path.join(output_dir, pngname), bbox_inches='tight')
 
-
+# Ensure the program is run only when run directly by checking 
+# if __name__ == "__main__". If true, the main() function is called 
+# and the command line arguments are passed (excluding the script
+# name itself) using sys.argv[1:].
 if __name__ == "__main__":
     main(sys.argv[1:])
