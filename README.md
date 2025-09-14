@@ -1,5 +1,5 @@
 # Summer-2025
-Project started in early August 2025 to practice programming.
+SETI project started in August 2025.
 
 The code needs to adhere to PEP8 formatting rules.
  - All classes should be written with CamelCase
