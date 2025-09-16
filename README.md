@@ -1,4 +1,4 @@
-# Summer-2025
+# My SETI Challenge Response
 SETI project started in August 2025.
 
 The code needs to adhere to PEP8 formatting rules.
